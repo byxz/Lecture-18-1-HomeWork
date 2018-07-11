@@ -13,7 +13,9 @@ class APIWorker {
     var task: URLSessionDataTask?
     
     enum URLs {
-        static let mainUrl = "https://api.privatbank.ua/p24api/infrastructure?atm&address=&city=%D0%94%D0%BD%D0%B5%D0%BF%D1%80%D0%BE%D0%BF%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D1%81%D0%BA"
+        //static let mainUrl = "https://api.privatbank.ua/p24api/infrastructure?atm&address=&city=%D0%94%D0%BD%D0%B5%D0%BF%D1%80%D0%BE%D0%BF%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D1%81%D0%BA"
+        static let mainUrl = "https://api.privatbank.ua/p24api/infrastructure?atm&address=&city=Днепропетровск"
+     
     }
     
     //Delet
@@ -31,6 +33,10 @@ class APIWorker {
     }
     
     func loadData(completion: @escaping ([PrivatStruct]?, Error?) -> Void) {
+        
+        //??? 
+        let escapedString = URLs.mainUrl.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)
+        print("escapedString: \(String(describing: escapedString))")
         
         guard let url = URL(string: URLs.mainUrl) else {
             print("URL missing ")
@@ -56,6 +62,9 @@ class APIWorker {
                 print("Error deserializing JSON: \(String(describing: error))")
                 return
             }
+   print(data)
+            print(jsonObject)
+            print(arr)
             
             var privat = [PrivatStruct]()
             
