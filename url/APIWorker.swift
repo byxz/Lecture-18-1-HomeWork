@@ -13,19 +13,18 @@ class APIWorker {
     var task: URLSessionDataTask?
     
     enum URLs {
-        //static let mainUrl = "https://api.privatbank.ua/p24api/infrastructure?atm&address=&city=%D0%94%D0%BD%D0%B5%D0%BF%D1%80%D0%BE%D0%BF%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D1%81%D0%BA"
-        static let mainUrl = "https://api.privatbank.ua/p24api/infrastructure?atm&address=&city=Днепропетровск"
-     
+        static let mainUrl = "https://api.privatbank.ua/p24api/infrastructure?json&atm&address=&city=Днепропетровск"
+        
     }
     
     //Delet
     /*
-    enum Keys {
-        static let serviceKey = "LsHoEdcE1pmshD6kwQzdL2S4CpN0p1yJltgjsnA9fyaRGXs3Fj"
-        static let serviceKeyTwo = "1rksEaJHXjmshr9Os90W2v0joaavp1P1XHXjsn9EjaGpGlgcaM"
-        
-    }
- */
+     enum Keys {
+     static let serviceKey = "LsHoEdcE1pmshD6kwQzdL2S4CpN0p1yJltgjsnA9fyaRGXs3Fj"
+     static let serviceKeyTwo = "1rksEaJHXjmshr9Os90W2v0joaavp1P1XHXjsn9EjaGpGlgcaM"
+     
+     }
+     */
     
     enum SerializationError:Error {
         case missing(String)
@@ -34,11 +33,9 @@ class APIWorker {
     
     func loadData(completion: @escaping ([PrivatStruct]?, Error?) -> Void) {
         
-        //??? 
         let escapedString = URLs.mainUrl.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)
-        print("escapedString: \(String(describing: escapedString))")
         
-        guard let url = URL(string: URLs.mainUrl) else {
+        guard let url = URL(string: escapedString!) else {
             print("URL missing ")
             completion(nil, SerializationError.missing("MISSING!!"))
             return
@@ -47,7 +44,6 @@ class APIWorker {
         var request = URLRequest(url: url)
         
         request.httpMethod = "GET"
-        //request.setValue(Keys.serviceKey, forHTTPHeaderField: "X-Mashape-Key")
         
         let task = URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
@@ -55,36 +51,35 @@ class APIWorker {
                 return
             }
             
-            guard let data = data else { return }
-            guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) else { return }
-            guard let arr = jsonObject as? [[String:Any]] else {
-                completion(nil, nil)
-                print("Error deserializing JSON: \(String(describing: error))")
-                return
+            guard
+                let data = data,
+                let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
+                let arr = jsonObject as? [String:Any]
+                else {
+                    completion(nil, nil)
+                    print("Error deserializing JSON: \(String(describing: error))")
+                    return
             }
-   print(data)
-            print(jsonObject)
-            print(arr)
             
             var privat = [PrivatStruct]()
             
-            for dict in arr {
-                let city = dict["city"] as? String ?? ""
-                let address = dict["address"] as? String ?? ""
+            let city = arr["city"] as? String  ?? ""
+            let address = arr["address"] as? String ?? ""
+            let devices = arr["devices"] as? [[String: Any]]
+            
+            for dict in devices! {
                 
-                let devices = dict["devices"] as? [String: Any]
-                let type = devices!["type"] as? String ?? ""
-                let cityRU = devices!["full"] as? String ?? ""
-                let cityUA = devices!["tri"] as? String ?? ""
-                let cityEN = devices!["tri"] as? String ?? ""
-                let fullAddressRu = devices!["tri"] as? String ?? ""
-                let fullAddressUa = devices!["tri"] as? String ?? ""
-                let fullAddressEn = devices!["tri"] as? String ?? ""
-                let placeRu = devices!["tri"] as? String ?? ""
-                let placeUa = devices!["tri"] as? String ?? ""
-                let latitude = devices!["tri"] as? String ?? ""
-                let longitude = devices!["tri"] as? String ?? ""
-               
+                let type = dict["type"] as? String ?? ""
+                let cityRU = dict["cityRU"] as? String ?? ""
+                let cityUA = dict["cityUA"] as? String ?? ""
+                let cityEN = dict["cityEN"] as? String ?? ""
+                let fullAddressRu = dict["fullAddressRu"] as? String ?? ""
+                let fullAddressUa = dict["fullAddressUa"] as? String ?? ""
+                let fullAddressEn = dict["fullAddressEn"] as? String ?? ""
+                let placeRu = dict["placeRu"] as? String ?? ""
+                let placeUa = dict["placeUa"] as? String ?? ""
+                let latitude = dict["latitude"] as? String ?? ""
+                let longitude = dict["longitude"] as? String ?? ""
                 
                 let tw = dict["tw"] as? [String: Any]
                 let mon = tw!["mon"] as? String ?? ""
@@ -95,14 +90,16 @@ class APIWorker {
                 let sat = tw!["sat"] as? String ?? ""
                 let sun = tw!["sun"] as? String ?? ""
                 let hol = tw!["hol"] as? String ?? ""
+                
                 let twStruct = Tw(mon: mon, tue: tue, wed: wed, thu: thu, fri: fri, sat: sat, sun: sun, hol: hol)
                 
-                 let deviceStruct = Devices(type: type, cityRU: cityRU, cityUA: cityUA, cityEN: cityEN, fullAddressRu: fullAddressRu, fullAddressUa: fullAddressUa, fullAddressEn: fullAddressEn, placeRu: placeRu, placeUa: placeUa, latitude: latitude, longitude: longitude, tw: twStruct)
+                let deviceStruct = Devices(type: type, cityRU: cityRU, cityUA: cityUA, cityEN: cityEN, fullAddressRu: fullAddressRu, fullAddressUa: fullAddressUa, fullAddressEn: fullAddressEn, placeRu: placeRu, placeUa: placeUa, latitude: latitude, longitude: longitude, tw: twStruct)
+                
                 
                 let privatStructs = PrivatStruct(city: city, address: address, devices: deviceStruct)
+                
                 privat.append(privatStructs)
             }
-            
             completion(privat, nil)
         }
         
@@ -112,6 +109,6 @@ class APIWorker {
     func сancel() {
         task?.cancel()
     }
-
+    
     
 }

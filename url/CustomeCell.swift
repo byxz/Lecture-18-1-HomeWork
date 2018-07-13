@@ -10,12 +10,10 @@ import UIKit
 
 class CustomeCell: UITableViewCell {
     
-    @IBOutlet var groupLabel: UILabel!
+    @IBOutlet var cityUA: UILabel!
     
-    @IBOutlet var triOfHomeTeamLabel: UILabel!
-    @IBOutlet var fullOfHomeTeamLabel: UILabel!
+    @IBOutlet var fullAddressUa: UILabel!
+    @IBOutlet var placeUa: UILabel!
     
-    @IBOutlet var triOfVisitTeamLabel: UILabel!
-    @IBOutlet var fullOfVisitTeamLabel: UILabel!
     
 }

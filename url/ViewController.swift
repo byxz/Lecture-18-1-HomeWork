@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         worker.сancel()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+      
     }
     
     private func showAlert(with error: Error) {
@@ -44,23 +44,25 @@ class ViewController: UIViewController {
     
     private func advancedLoad() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        worker.loadData { (games, error) in
+        worker.loadData { (ATM, error) in
             
             if let error = error {
                 DispatchQueue.main.async {
                     self.showAlert(with: error)
+                    //получили ошибку и выключили спиннер
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
                 return
             }
             
-            guard let games = games else { return }
-            
+            guard let ATM = ATM else { return }
             
             DispatchQueue.main.async {
-                
-                self.textView.text = "\(games)"
-                self.array = games
+                self.textView.text = "\(ATM)"
+                self.array = ATM
                 self.reloadData()
+                //получили данные перезагрузили табли и выключили спиннер
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
         }
         
@@ -76,19 +78,17 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomeCell
         
-        cell.groupLabel.text = array[indexPath.row].city
+        cell.cityUA.text = array[indexPath.row].devices.cityUA
         
-        cell.triOfHomeTeamLabel.text = array[indexPath.row].devices.cityEN
-        cell.fullOfHomeTeamLabel.text = array[indexPath.row].address
-        
-        cell.triOfVisitTeamLabel.text = array[indexPath.row].devices.cityRU
-        cell.fullOfVisitTeamLabel.text = array[indexPath.row].address
+        cell.fullAddressUa.text = array[indexPath.row].devices.fullAddressUa
+        cell.placeUa.text = array[indexPath.row].devices.placeUa
         
         return cell
     }
     
     func reloadData() {
         tableView.reloadData()
+       
     }
     
 }

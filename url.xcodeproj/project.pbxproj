@@ -12,7 +12,6 @@
 		0415296D20ED3F2A0015AB58 /* Tw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0415296C20ED3F2A0015AB58 /* Tw.swift */; };
 		0415296F20ED3F740015AB58 /* PrivatStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0415296E20ED3F740015AB58 /* PrivatStruct.swift */; };
 		0475704120E00EDC00C79F32 /* APIWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475704020E00EDC00C79F32 /* APIWorker.swift */; };
-		048CF4A420F679E900733E4E /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048CF4A320F679E900733E4E /* Exchange.swift */; };
 		04DB3D3020DC06FD00631219 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3D2F20DC06FD00631219 /* AppDelegate.swift */; };
 		04DB3D3220DC06FD00631219 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB3D3120DC06FD00631219 /* ViewController.swift */; };
 		04DB3D3520DC06FD00631219 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04DB3D3320DC06FD00631219 /* Main.storyboard */; };
@@ -26,7 +25,6 @@
 		0415296C20ED3F2A0015AB58 /* Tw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tw.swift; sourceTree = "<group>"; };
 		0415296E20ED3F740015AB58 /* PrivatStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatStruct.swift; sourceTree = "<group>"; };
 		0475704020E00EDC00C79F32 /* APIWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIWorker.swift; sourceTree = "<group>"; };
-		048CF4A320F679E900733E4E /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
 		04DB3D2C20DC06FD00631219 /* url.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = url.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DB3D2F20DC06FD00631219 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04DB3D3120DC06FD00631219 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -51,7 +49,6 @@
 			isa = PBXGroup;
 			children = (
 				0415296E20ED3F740015AB58 /* PrivatStruct.swift */,
-				048CF4A320F679E900733E4E /* Exchange.swift */,
 				0415296A20ED3F030015AB58 /* Devices.swift */,
 				0415296C20ED3F2A0015AB58 /* Tw.swift */,
 			);
@@ -165,7 +162,6 @@
 				0415296B20ED3F030015AB58 /* Devices.swift in Sources */,
 				0415296D20ED3F2A0015AB58 /* Tw.swift in Sources */,
 				0415296420ED39E60015AB58 /* CustomeCell.swift in Sources */,
-				048CF4A420F679E900733E4E /* Exchange.swift in Sources */,
 				04DB3D3020DC06FD00631219 /* AppDelegate.swift in Sources */,
 				0415296F20ED3F740015AB58 /* PrivatStruct.swift in Sources */,
 				0475704120E00EDC00C79F32 /* APIWorker.swift in Sources */,
